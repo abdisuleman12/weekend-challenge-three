@@ -13,7 +13,6 @@ app.use(express.static('public'));
 
 
 
-// Start listening for requests on a specific port
 app.listen(port, function() {
     console.log('listening on port', port);
 });
