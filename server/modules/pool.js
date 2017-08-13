@@ -1,7 +1,7 @@
 var pg = require('pg');
 
 var config = {
-    database: 'betelgeuse', // name of database
+    database: 'abdisuleman', // name of database
     host: 'localhost', // where your database is located
     port: 5432, // port of call for database
     max: 10, // number of connections allowed at one time
