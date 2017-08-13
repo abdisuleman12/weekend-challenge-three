@@ -32,7 +32,6 @@ function addTask(taskToDatabase) {
 
 function getTask() {
     console.log('in get task')
-
     $.ajax({
         url: '/tasks',
         type: 'GET',
@@ -42,10 +41,12 @@ function getTask() {
                 var taskToDisplay = response[i];
                 //taskToDisplay.id, taskToDisplay.tasks_to_add
                 var $taskRowToDisplay = $('<tr class = "taskRow"></tr>');
-                 $taskRowToDisplay.data('id', taskToDisplay.id);
-                 $taskRowToDisplay.append('<td class = "task">' + taskToDisplay.tasks_to_add + '</td>');
+                $taskRowToDisplay.data('id', taskToDisplay.id);
+                $taskRowToDisplay.append('<td class = "task">' + taskToDisplay.tasks_to_add + '</td>');
+                $taskRowToDisplay.append('<td><button class= "completeButton">Complete</button></td>');
+                $taskRowToDisplay.append('<td><button class= "deleteButton">Delete</button></td>')
                 $('#viewTasks').append($taskRowToDisplay)
-                } // end of for loop 
-            }
-        });
+            } // end of for loop 
+        }
+    });
 };
