@@ -4,27 +4,28 @@ var pool = require('../modules/pool.js')
 
 
 
-// router.get('/', function (req, res) {
-//     console.log('task get was hit');
-//     pool.connect(function (errorConnectingToDatabase, client, done) {
-//         if (errorConnectingToDatabase) {
-//             console.log('Error connecting to DataBase', errorConnectingToDatabase);
-//             res.sendStatus(500)
-//         } else {
-//             // SELECT * FROM task;         
-//             client.query('SELECT * FROM task', function (errorMakingQuery, result) {
-//                 done();
-//                 if (errorMakingQuery) {
-//                     console.log('Error making database query', errorMakingQuery);
-//                     res.sendStatus(500);
-//                 } else {
-//                     res.send(result.rows);
-//                 }
-//             });
+router.get('/', function (req, res) {
+    console.log('task get was hit');
+    pool.connect(function (errorConnectingToDatabase, client, done) {
+        if (errorConnectingToDatabase) {
+            console.log('Error connecting to DataBase', errorConnectingToDatabase);
+            res.sendStatus(500)
+        } else {
+            // SELECT * FROM task;         
+            client.query('SELECT * FROM task;', function (errorMakingQuery, result) {
+                done();
+                if (errorMakingQuery) {
+                    console.log('Error making database query', errorMakingQuery);
+                    res.sendStatus(500);
+                } else {
+                    res.send(result.rows);
+                    // sending over an array of objects [{0},{1},{2}] response[0].tasks_to_add
+                }
+            });
 
-//         }
-//     });
-// });
+        }
+    });
+});
 
 
 
