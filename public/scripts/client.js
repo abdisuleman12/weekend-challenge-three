@@ -3,16 +3,26 @@ $(document).ready(function () {
 
     $('.createButton').on('click', function () {
         console.log('task button has been clicked')
-
         var taskInputToSend = {
             task: $('#taskIn').val()
         };
         console.log('the task input is :', taskInputToSend);
-
         addTask(taskInputToSend)
     });// end of create button on click
 
+    $('#viewTasks').on('click','.completeButton', function () {
+        console.log('complete button was clicked')
+    }); // complete button listener 
+
+
+    $('#viewTasks').on('click', '.deleteButton', function () {
+        console.log('delete button was clicked')
+    }); // delete button listener
+
+
 }); // end of document ready function 
+
+
 
 function addTask(taskToDatabase) {
     console.log('in addTask', taskToDatabase);
@@ -49,4 +59,4 @@ function getTask() {
             } // end of for loop 
         }
     });
-};
+}; // end of get task function 
