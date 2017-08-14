@@ -1,5 +1,9 @@
  .completedRow {
-    background-color: green;
+    background-color: forestgreen;
     text-decoration: line-through;
 }; 
+
+h1 {
+    font-size: 250%;
+}
 

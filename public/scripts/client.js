@@ -67,24 +67,37 @@ function getTask() {
         type: 'GET',
         success: function (response) {
             console.log('ajax GET success, response:', response);
-            for (var i = 0; i < response.length; i++) {
-                var taskToDisplay = response[i];
-                //taskToDisplay.id, taskToDisplay.tasks_to_add, taskToDisplay.complete
-                var $taskRowToDisplay = $('<tr class = "taskRow"></tr>');
-                $taskRowToDisplay.data('id', taskToDisplay.id);
-                $taskRowToDisplay.append('<td class = "task">' + taskToDisplay.tasks_to_add + '</td>');
-                // $taskRowToDisplay.append('<td><button class= "completeButton">Complete</button></td>');
-                // $taskRowToDisplay.append('<td><button class= "deleteButton">Delete</button></td>')
-                if (taskToDisplay.complete  === false) {
-                    $taskRowToDisplay.append('<td><button class= "completeButton">Complete</button></td>');
-                
-                } else {
-                    $taskRowToDisplay.addClass('completedRow')
-                    $taskRowToDisplay.append('<td><button class = "deleteButton">Delete</button></td>');
-                }
-                $('#viewTasks').append($taskRowToDisplay)
-            } // end of for loop 
+            drawTaskTable(response)
         }
-    });
+
+    }) // end of ajax
+
 }; // end of get task function 
+
+
+function drawTaskTable(task)  {
+    for (var i = 0; i < task.length; i++) {
+        var taskToDisplay = task[i];
+        //taskToDisplay.id, taskToDisplay.tasks_to_add, taskToDisplay.complete
+        var $taskRowToDisplay = $('<tr class = "taskRow"></tr>');
+        $taskRowToDisplay.data('id', taskToDisplay.id);
+        $taskRowToDisplay.append('<td class = "task">' + taskToDisplay.tasks_to_add + '</td>');
+        // $taskRowToDisplay.append('<td><button class= "completeButton">Complete</button></td>');
+        // $taskRowToDisplay.append('<td><button class= "deleteButton">Delete</button></td>')
+        if (taskToDisplay.complete === false) {
+            $taskRowToDisplay.append('<td><button class= "completeButton">Complete</button></td>');
+
+        } else {
+            $taskRowToDisplay.addClass('completedRow')
+            $taskRowToDisplay.append('<td><button class = "deleteButton">Delete</button></td>');
+        }
+        $('#viewTasks').append($taskRowToDisplay)
+    } // end of for loop 
+
+    $('.completeButton').css({ "background-color": "yellow", "font-size": "200%" });
+    $('.deleteButton').css({ "background-color": "purple", "font-size": "200%" });
+
+
+
+} // end of draw task table 
 
