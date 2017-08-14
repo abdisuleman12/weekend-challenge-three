@@ -37,8 +37,8 @@ router.post('/', function (req, res) {
             console.log('error connecting to db:', errorConnectingToDatabase);
             res.sendStatus(500);
         } else {
-            //  INSERT INTO task (tasks_to_add) VALUES ('clean kitchen');
-            client.query('INSERT INTO task (tasks_to_add) VALUES ($1);',
+            //  INSERT INTO task (tasks_to_add) VALUES ('clean kitchen', false);
+            client.query('INSERT INTO task (tasks_to_add, complete) VALUES ($1, false);',
                 [req.body.task], function (errorMakingQuery, result) {
                     done();
                     console.log(req.body.task)
@@ -53,6 +53,28 @@ router.post('/', function (req, res) {
         }
     })
 }); // end of router post
+
+router.put('/:id', function (req, res) {
+    var transferId = req.params.id;
+    pool.connect(function (errorConnectingToDatabse, client, done) {
+        if (errorConnectingToDatabse) {
+            console.log('error connecting to database', errorConnectingToDatabse);
+            res.sendStatus(500);
+        } else {
+            //query like this UPDATE task SET complete = TRUE WHERE id=3;
+            client.query('UPDATE task SET complete = TRUE WHERE id=$1;', [transferId], function (errorMakingQuery, result) {
+                done();
+                if (errorMakingQuery) {
+                    console.log('error making query', errorMakingQuery);
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
+            })
+        }
+
+    })
+});
 
 
 module.exports= router; 

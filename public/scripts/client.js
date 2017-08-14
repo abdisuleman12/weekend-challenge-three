@@ -1,6 +1,7 @@
 $(document).ready(function () {
     console.log('js sourced in')
 
+    getTask();
     $('.createButton').on('click', function () {
         console.log('task button has been clicked')
         var taskInputToSend = {
@@ -10,13 +11,31 @@ $(document).ready(function () {
         addTask(taskInputToSend)
     });// end of create button on click
 
-    $('#viewTasks').on('click','.completeButton', function () {
-        console.log('complete button was clicked')
+    $('#viewTasks').on('click', '.completeButton', function () {
+        console.log('complete button was clicked');
+        var transferId = $(this).parent().parent().data('id');
+        console.log(transferId);
+        $.ajax({
+            method: 'PUT',
+            url: '/tasks/' + transferId,
+            success: function (response) {
+                getTask();
+            }
+        }) // end of ajax put complete request 
     }); // complete button listener 
 
 
     $('#viewTasks').on('click', '.deleteButton', function () {
-        console.log('delete button was clicked')
+        console.log('delete button was clicked');
+        var transferId = $(this).parent().parent().data('id');
+        console.log(transferId)
+        $.ajax({
+            method: 'PUT',
+            url: '/tasks/' + transferId,
+            success: function (response) {
+                getTask();
+            }
+        }) // end of ajax put delete request 
     }); // delete button listener
 
 
@@ -42,6 +61,7 @@ function addTask(taskToDatabase) {
 
 function getTask() {
     console.log('in get task')
+    $('#viewTasks').empty();
     $.ajax({
         url: '/tasks',
         type: 'GET',
@@ -49,14 +69,22 @@ function getTask() {
             console.log('ajax GET success, response:', response);
             for (var i = 0; i < response.length; i++) {
                 var taskToDisplay = response[i];
-                //taskToDisplay.id, taskToDisplay.tasks_to_add
+                //taskToDisplay.id, taskToDisplay.tasks_to_add, taskToDisplay.complete
                 var $taskRowToDisplay = $('<tr class = "taskRow"></tr>');
                 $taskRowToDisplay.data('id', taskToDisplay.id);
                 $taskRowToDisplay.append('<td class = "task">' + taskToDisplay.tasks_to_add + '</td>');
-                $taskRowToDisplay.append('<td><button class= "completeButton">Complete</button></td>');
-                $taskRowToDisplay.append('<td><button class= "deleteButton">Delete</button></td>')
+                // $taskRowToDisplay.append('<td><button class= "completeButton">Complete</button></td>');
+                // $taskRowToDisplay.append('<td><button class= "deleteButton">Delete</button></td>')
+                if (taskToDisplay.complete  === false) {
+                    $taskRowToDisplay.append('<td><button class= "completeButton">Complete</button></td>');
+                
+                } else {
+                    $taskRowToDisplay.addClass('completedRow')
+                    $taskRowToDisplay.append('<td><button class = "deleteButton">Delete</button></td>');
+                }
                 $('#viewTasks').append($taskRowToDisplay)
             } // end of for loop 
         }
     });
 }; // end of get task function 
+
