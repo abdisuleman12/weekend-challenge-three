@@ -27,9 +27,6 @@ router.get('/', function (req, res) {
     });
 });
 
-
-
-
 router.post('/', function (req, res) {
     console.log('add task post hit');
     pool.connect(function (errorConnectingToDatabase, client, done) {
@@ -55,14 +52,14 @@ router.post('/', function (req, res) {
 }); // end of router post
 
 router.put('/:id', function (req, res) {
-    var transferId = req.params.id;
+    var completeId = req.params.id;
     pool.connect(function (errorConnectingToDatabse, client, done) {
         if (errorConnectingToDatabse) {
             console.log('error connecting to database', errorConnectingToDatabse);
             res.sendStatus(500);
         } else {
             //query like this UPDATE task SET complete = TRUE WHERE id=3;
-            client.query('UPDATE task SET complete = TRUE WHERE id=$1;', [transferId], function (errorMakingQuery, result) {
+            client.query('UPDATE task SET complete = TRUE WHERE id=$1;', [completeId], function (errorMakingQuery, result) {
                 done();
                 if (errorMakingQuery) {
                     console.log('error making query', errorMakingQuery);
@@ -74,7 +71,29 @@ router.put('/:id', function (req, res) {
         }
 
     })
-});
+}); // put route for updating complete to true
 
+
+router.delete('/:id', function (req, res) {
+    var deleteId = req.params.id;
+    pool.connect(function (errorConnectingToDatabse, client, done) {
+        if (errorConnectingToDatabse) {
+            console.log('error connecting to database', errorConnectingToDatabse);
+            res.sendStatus(500);
+        } else {
+            //query like this DELETE FROM task WHERE id=10;
+            client.query('DELETE FROM task WHERE id=$1;', [deleteId], function (errorMakingQuery, result) {
+                done();
+                if (errorMakingQuery) {
+                    console.log('error making query', errorMakingQuery);
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
+            })
+        }
+
+    })
+}); // delete route for db 
 
 module.exports= router; 

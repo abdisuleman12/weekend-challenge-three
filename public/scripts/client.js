@@ -13,11 +13,11 @@ $(document).ready(function () {
 
     $('#viewTasks').on('click', '.completeButton', function () {
         console.log('complete button was clicked');
-        var transferId = $(this).parent().parent().data('id');
-        console.log(transferId);
+        var completeId = $(this).parent().parent().data('id');
+        console.log(completeId);
         $.ajax({
             method: 'PUT',
-            url: '/tasks/' + transferId,
+            url: '/tasks/' + completeId,
             success: function (response) {
                 getTask();
             }
@@ -27,11 +27,11 @@ $(document).ready(function () {
 
     $('#viewTasks').on('click', '.deleteButton', function () {
         console.log('delete button was clicked');
-        var transferId = $(this).parent().parent().data('id');
-        console.log(transferId)
+        var deleteId = $(this).parent().parent().data('id');
+        console.log(deleteId)
         $.ajax({
-            method: 'PUT',
-            url: '/tasks/' + transferId,
+            method: 'DELETE',
+            url: '/tasks/' + deleteId,
             success: function (response) {
                 getTask();
             }
